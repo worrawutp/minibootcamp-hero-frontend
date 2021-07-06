@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+</head>
+<body>
+  <main>
+    <h1>Hero Form</h1>
+    <form action="http://localhost:3000/heroes" method="POST">
+      <div class="field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="hero[name]"/>
+      </div>
+      <div class="field">
+        <label for="job">Job</label>
+        <input type="text" id="job" name="hero[job]"/>
+      </div>
+      <div class="field">
+        <label for="hp">HP</label>
+        <input type="number" id="hp" name="hero[hp]"/>
+      </div>
+
+      <div class="field">
+        <input type="submit" />
+      </div>
+    </form>
+  </main>  
+</body>
+</html>
