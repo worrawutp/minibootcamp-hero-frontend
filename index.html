@@ -6,25 +6,32 @@
 </head>
 <body>
   <main>
-    <h1>Hero Form</h1>
-    <form action="http://localhost:3000/heroes" method="POST">
-      <div class="field">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="hero[name]"/>
-      </div>
-      <div class="field">
-        <label for="job">Job</label>
-        <input type="text" id="job" name="hero[job]"/>
-      </div>
-      <div class="field">
-        <label for="hp">HP</label>
-        <input type="number" id="hp" name="hero[hp]"/>
-      </div>
+    <div id="list-heroes">
+    </div> <!--.list-heroes -->
 
-      <div class="field">
-        <input type="submit" />
-      </div>
-    </form>
+    <div class="form-wrapper">
+      <form action="http://c13f04198125.ngrok.io/heroes" method="POST">
+        <h2>Create your hero</h2>
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="hero[name]"/>
+        </div>
+        <div class="field">
+          <label for="job">Job</label>
+          <input type="text" id="job" name="hero[job]"/>
+        </div>
+        <div class="field">
+          <label for="hp">HP</label>
+          <input type="number" id="hp" name="hero[hp]"/>
+        </div>
+
+        <div class="field">
+          <input type="submit" />
+        </div>
+      </form> <!--.form-wrapper -->
+    </div>
   </main>  
+
+  <script type="text/javascript" src="index.js"></script>
 </body>
 </html>
