@@ -9,7 +9,7 @@
     "src": "^1.1.2"
   },
   "scripts": {
-    "dev": "parcel index.html"
+    "dev": "parcel *.html"
   },
   "devDependencies": {
     "sass": "^1.35.1"
