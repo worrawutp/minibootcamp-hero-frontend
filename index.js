@@ -16,7 +16,32 @@ document.addEventListener('DOMContentLoaded', function() {
       buildHeroDom(listHeroesDom, data)
       addHeaderTitleToHeroesList(listHeroesDom)
   })
+
+  // Get all available jobs from backend
+  let heroJobUrl = process.env.API_URL + "/hero_jobs"
+  fetch(heroJobUrl, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }).then(resp => resp.json())
+    .then(data => {
+      let jobWrapper = document.getElementById('job-wrapper')
+      if(jobWrapper == null) { return }
+
+      console.log(data)
+      buildJobDropdown(jobWrapper, data)
+    })
 })
+
+function buildJobDropdown(targetDom, data) {
+  targetDom.insertAdjacentHTML('afterbegin', `
+    <select id="jobs" name="hero[job]">
+      ${ data.jobs.map(item => { return `<option value=${item}>${item}</option>` }) }
+      <option value=""></option>
+    </select>
+  `) 
+}
 
 function addHeaderTitleToHeroesList(targetDom) {
   targetDom.insertAdjacentHTML('afterbegin', `
