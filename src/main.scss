@@ -1,6 +1,6 @@
 .hero, .hero-header {
   display: grid;
-  grid-template-columns: 150px 150px 100px
+  grid-template-columns: repeat(4, 100px)
 }
 
 .form-wrapper {
