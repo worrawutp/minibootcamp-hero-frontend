@@ -3,12 +3,15 @@ import './src/main.scss'
 
 document.addEventListener('DOMContentLoaded', function() {
   let listHeroesDom = document.getElementById('list-heroes')
-  let formHero = document.querySelector("form")
+  let formHero = document.querySelector("#form-hero")
+  let btnSubmitHero = document.querySelector("#btn-submit-hero")
 
   if(listHeroesDom == null) { return }
-  let url = process.env.API_URL + "/heroes"
-  formHero.setAttribute("action",url);
-  fetch(url, {
+  let heroUrl = process.env.API_URL + "/heroes"
+
+  formHero.setAttribute("action", heroUrl);
+
+  fetch(heroUrl, {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',
@@ -36,8 +39,50 @@ document.addEventListener('DOMContentLoaded', function() {
       buildJobDropdown(jobWrapper, data)
     })
 
-  
+  btnSubmitHero.onclick = () => {
+    createHero()
+  }
+
+  function createHero() {
+    let name = formHero.querySelector('#name').value
+    let job = formHero.querySelector('#jobs').value
+    let image = formHero.querySelector('#image').files[0]
+
+    let formData = new FormData
+    formData.append('hero[name]', name)
+    formData.append('hero[job]', job)
+    formData.append('hero[image]', image)
+
+    let createHeroUrl = heroUrl
+    fetch(createHeroUrl, {
+      method: 'POST',
+      body: formData
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      console.log('yeah!')
+      console.log(data)
+
+      // Use response hero data to update the Hero List table
+      // - Taget heroList
+      // - Build heroItem DOM from the new hero data
+      // - Insert the heroItem DOM into the first position of the Hero List
+      insertNewHero(listHeroesDom, data)
+    })
+  }
 })
+
+function insertNewHero(heroList, hero) {
+  let htmlStr = `
+    <div class="hero">
+      <a href="" class="hero-name">${hero.name}</a>
+      <div>${hero.job}</div>
+      <div>${hero.hp}</div>
+      <div>${hero.mp}</div>
+    </div>
+  `
+  heroList.insertAdjacentHTML('afterbegin', htmlStr) 
+}
 
 function buildJobDropdown(targetDom, data) {
   targetDom.insertAdjacentHTML('afterbegin', `
@@ -49,7 +94,7 @@ function buildJobDropdown(targetDom, data) {
 }
 
 function addHeaderTitleToHeroesList(targetDom) {
-  targetDom.insertAdjacentHTML('afterbegin', `
+  targetDom.insertAdjacentHTML('beforebegin', `
     <div class="hero-header">
       <div>Name</div>
       <div>Job</div>
@@ -71,3 +116,4 @@ function buildHeroDom(targetDom, data) {
     targetDom.insertAdjacentHTML('beforeend', htmlStr) 
   })
 }
+
