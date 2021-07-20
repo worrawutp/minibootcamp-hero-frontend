@@ -6,30 +6,34 @@
 </head>
 <body>
   <main>
-    <div id="list-heroes">
-    </div> <!--.list-heroes -->
+    <div class="main-content">
+      <div class="list-heroes-wrapper">
+        <div id="list-heroes">
+        </div> <!--.list-heroes -->
+      </div>
 
-    <div class="form-wrapper">
-      <div id="form-hero">
-        <h2>Create your hero</h2>
-        <div class="field">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="hero[name]"/>
-        </div>
-        <div class="field">
-          <label for="job">Job</label>
-          <div id="job-wrapper"></div>
-        </div>
-        <div class="field">
-          <label for="hp">Hero Image</label>
-          <input type="file" id="image" name="hero[image]" />
-        </div>
+      <div class="form-wrapper">
+        <div id="form-hero">
+          <h2>Create your hero</h2>
+          <div class="field">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="hero[name]"/>
+          </div>
+          <div class="field">
+            <label for="job">Job</label>
+            <div id="job-wrapper"></div>
+          </div>
+          <div class="field">
+            <label for="hp">Hero Image</label>
+            <input type="file" id="image" name="hero[image]" />
+          </div>
 
-        <div class="field">
-          <input id="btn-submit-hero" type="submit" />
-        </div>
-      </div> <!--.form-wrapper -->
-    </div>
+          <div class="field">
+            <input id="btn-submit-hero" type="submit" />
+          </div>
+        </div> <!--.form-wrapper -->
+      </div>
+    </div> <!--.main-content -->
   </main>  
 
   <script type="text/javascript" src="index.js"></script>

@@ -1,3 +1,13 @@
+.main-content {
+  display: flex;
+  width: 1080px;
+  margin: 0 auto;
+}
+
+.list-heroes-wrapper {
+  width: 60%;
+}
+
 .hero, .hero-header {
   display: grid;
   grid-template-columns: repeat(4, 100px)
