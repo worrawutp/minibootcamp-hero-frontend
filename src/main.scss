@@ -1,11 +1,13 @@
 .main-content {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 1080px;
   margin: 0 auto;
 }
 
 .list-heroes-wrapper {
   width: 60%;
+  grid-row: span 2;
 }
 
 .hero, .hero-header {
