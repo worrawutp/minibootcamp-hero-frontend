@@ -34,14 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }).then(resp => resp.json())
     .then(data => {
-      
       let jobWrapper = document.getElementById('job-wrapper')
       if(jobWrapper == null) { return }
 
-      console.log(data)
       buildJobDropdown(jobWrapper, data)
     })
-
 
   btnSubmitHero.onclick = () => {
     createHero()
@@ -74,6 +71,18 @@ function assignClickEventForHeroItem() {
   heroItems.forEach(item => {
     item.addEventListener('click', function(){
       // show hero Profile
+      let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
+      let heroData = JSON.parse(item.dataset.hero)
+
+      heroProfileWrapper.innerHTML = `
+        <div class="hero-profile">
+          <div>
+            <img src="${heroData.image_medium_url}" alt="${heroData.name}" />
+          </div>
+          <p>Hero name: ${heroData.name}</p>
+          <p>Hero hp: ${heroData.hp}</p>
+        </div>
+      `
     })
   })
 }
@@ -116,7 +125,7 @@ function buildHeroList(targetDom, data) {
       hp: hero.hp,
       mp: hero.mp,
       job: hero.job,
-      image_medium_url: hero.image_medium_url
+      image_medium_url: hero.image_medium_url.replace('http://localhost:3002', process.env.API_URL)
     }
     let htmlStr = `
       <div class="hero" data-hero='${JSON.stringify(heroData)}'
