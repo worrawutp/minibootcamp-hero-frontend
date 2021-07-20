@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }).then(resp => resp.json())
     .then(data => {
-      buildHeroDom(listHeroesDom, data)
+      buildHeroList(listHeroesDom, data)
       addHeaderTitleToHeroesList(listHeroesDom)
+      assignClickEventForHeroItem()
   })
 
   // Get all available jobs from backend
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log(data)
       buildJobDropdown(jobWrapper, data)
     })
+
 
   btnSubmitHero.onclick = () => {
     createHero()
@@ -62,17 +64,19 @@ document.addEventListener('DOMContentLoaded', function() {
     })
     .then(resp => resp.json())
     .then(data => {
-      console.log('yeah!')
-      console.log(data)
-
-      // Use response hero data to update the Hero List table
-      // - Taget heroList
-      // - Build heroItem DOM from the new hero data
-      // - Insert the heroItem DOM into the first position of the Hero List
       insertNewHero(listHeroesDom, data)
     })
   }
 })
+
+function assignClickEventForHeroItem() {
+  let heroItems = document.querySelectorAll('.hero')
+  heroItems.forEach(item => {
+    item.addEventListener('click', function(){
+      // show hero Profile
+    })
+  })
+}
 
 function insertNewHero(heroList, hero) {
   let htmlStr = `
@@ -105,10 +109,17 @@ function addHeaderTitleToHeroesList(targetDom) {
   `)
 }
 
-function buildHeroDom(targetDom, data) {
+function buildHeroList(targetDom, data) {
   data.forEach(hero => {
+    let heroData = {
+      name: hero.name,
+      hp: hero.hp,
+      mp: hero.mp,
+      job: hero.job,
+      image_medium_url: hero.image_medium_url
+    }
     let htmlStr = `
-      <div class="hero">
+      <div class="hero" data-hero='${JSON.stringify(heroData)}'
         <a href="" class="hero-name">${hero.name}</a>
         <div>${hero.job}</div>
         <div>${hero.hp}</div>
