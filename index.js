@@ -72,39 +72,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function assignClickEventForHeroItem() {
   let heroItems = document.querySelectorAll('.hero')
-  heroItems.forEach(item => {
-    item.addEventListener('click', function(){
-      // show hero Profile
-      let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
-      let heroData = JSON.parse(item.dataset.hero)
-
-      heroProfileWrapper.innerHTML = `
-        <div class="hero-profile">
-          <div class="hero-profile-image">
-            <img src="${heroData.image_medium_url}" alt="${heroData.name}" />
-          </div>
-          <div class="hero-profile-title">
-            <div class="hero-profile-name">${heroData.name}</div>
-            <div class="hero-profile-job">${heroData.job}</div>
-          </div>
-          <div class="hero-profile-power">
-            <div class="item">
-              <div class="item-label">HP</div>
-              <div class="item-value">${heroData.hp}</div>
-            </div>
-            <div class="item">
-              <div class="item-label">MP</div>
-              <div class="item-value">${heroData.mp}</div>
-            </div>
-          </div>
-          <div class="hero-profile-buttons">
-            <button class="btn-hero-update">Update</button>
-            <button class="btn-hero-delete">Delete</button>
-          </div>
-        </div>
-      `
+  heroItems.forEach(hero => {
+    hero.addEventListener('click', function(){
+      displayHeroProfile(hero) 
     })
   })
+}
+
+function displayHeroProfile(hero) {
+  // show hero Profile
+  let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
+  let heroData = JSON.parse(hero.dataset.hero)
+
+  heroProfileWrapper.innerHTML = `
+    <div class="hero-profile">
+      <div class="hero-profile-image">
+        <img src="${heroData.image_medium_url}" alt="${heroData.name}" />
+      </div>
+      <div class="hero-profile-title">
+        <div class="hero-profile-name">${heroData.name}</div>
+        <div class="hero-profile-job">${heroData.job}</div>
+      </div>
+      <div class="hero-profile-power">
+        <div class="item">
+          <div class="item-label">HP</div>
+          <div class="item-value">${heroData.hp}</div>
+        </div>
+        <div class="item">
+          <div class="item-label">MP</div>
+          <div class="item-value">${heroData.mp}</div>
+        </div>
+      </div>
+      <div class="hero-profile-buttons">
+        <button class="btn-hero-update">Update</button>
+        <button class="btn-hero-delete" onclick="deleteHeroItem(${heroData.id})">Delete</button>
+      </div>
+    </div>
+  `
+}
+
+window.deleteHeroItem = function(heroId) {
+  if(confirm('Are you sure?')) {
+    let heroItem = document.querySelector(`[data-id="${heroId}"]`)
+    let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
+
+    if(heroItem != null) {
+      heroItem.remove()
+      heroProfileWrapper.innerHTML = ''
+      // request server with method=DELETE
+    }
+  }
 }
 
 function insertNewHero(heroList, hero) {
@@ -142,6 +159,7 @@ function addHeaderTitleToHeroesList(targetDom) {
 function buildHeroList(targetDom, data) {
   data.forEach(hero => {
     let heroData = {
+      id: hero.id,
       name: hero.name,
       hp: hero.hp,
       mp: hero.mp,
@@ -149,7 +167,7 @@ function buildHeroList(targetDom, data) {
       image_medium_url: hero.image_medium_url.replace('http://localhost:3002', process.env.API_URL)
     }
     let htmlStr = `
-      <div class="hero" data-hero='${JSON.stringify(heroData)}'
+      <div class="hero" data-id='${hero.id}' data-hero='${JSON.stringify(heroData)}'
         <a href="" class="hero-name">${hero.name}</a>
         <div>${hero.job}</div>
         <div>${hero.hp}</div>
