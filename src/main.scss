@@ -1,3 +1,7 @@
+img {
+  width: 100%;
+}
+
 .main-content {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -14,6 +18,50 @@
   display: grid;
   grid-template-columns: repeat(4, 100px)
 }
+
+.hero {
+  cursor: pointer;
+
+  &-profile {
+    width: 350px;
+    border: 1px solid;
+    padding: 1rem;
+
+    &-image {
+      width: 100%;
+      img {
+        display: block;
+        width: 180px;
+        margin: 0 auto;
+        border-radius: 50%;
+        border-bottom-width: 4px;
+        border-style: solid;
+      }
+    }
+    &-title {
+      text-align: center;
+      margin: 1rem 0;
+    }
+    &-power {
+      width: 92px;
+      margin: 0 auto;
+      margin-bottom: 1rem;
+      .item {
+        display: flex;
+        gap: 1rem;
+      }
+      .item-label {
+        width: 50px;
+      }
+    }
+    &-buttons {
+      text-align: center;
+    }
+  } // .hero-profile 
+  &:hover {
+    background-color: yellow;
+  }
+} // .hero
 
 .form-wrapper {
   .field {

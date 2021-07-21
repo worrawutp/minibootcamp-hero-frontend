@@ -57,6 +57,10 @@ document.addEventListener('DOMContentLoaded', function() {
     let createHeroUrl = heroUrl
     fetch(createHeroUrl, {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': process.env.API_CREDENTIAL
+      },
       body: formData
     })
     .then(resp => resp.json())
@@ -76,11 +80,27 @@ function assignClickEventForHeroItem() {
 
       heroProfileWrapper.innerHTML = `
         <div class="hero-profile">
-          <div>
+          <div class="hero-profile-image">
             <img src="${heroData.image_medium_url}" alt="${heroData.name}" />
           </div>
-          <p>Hero name: ${heroData.name}</p>
-          <p>Hero hp: ${heroData.hp}</p>
+          <div class="hero-profile-title">
+            <div class="hero-profile-name">${heroData.name}</div>
+            <div class="hero-profile-job">${heroData.job}</div>
+          </div>
+          <div class="hero-profile-power">
+            <div class="item">
+              <div class="item-label">HP</div>
+              <div class="item-value">${heroData.hp}</div>
+            </div>
+            <div class="item">
+              <div class="item-label">MP</div>
+              <div class="item-value">${heroData.mp}</div>
+            </div>
+          </div>
+          <div class="hero-profile-buttons">
+            <button class="btn-hero-update">Update</button>
+            <button class="btn-hero-delete">Delete</button>
+          </div>
         </div>
       `
     })
@@ -116,6 +136,7 @@ function addHeaderTitleToHeroesList(targetDom) {
       <div>HP</div>
     </di>
   `)
+
 }
 
 function buildHeroList(targetDom, data) {
