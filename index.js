@@ -159,6 +159,7 @@ function addHeaderTitleToHeroesList(targetDom) {
     <div class="hero-header">
       <div>Name</div>
       <div>Job</div>
+      <div>Lv</div>
       <div>HP</div>
       <div>MP</div>
     </di>
@@ -181,6 +182,7 @@ function buildHeroList(targetDom, data) {
       <div class="hero" data-id='${hero.id}' data-hero='${JSON.stringify(heroData)}'
         <a href="" class="hero-name">${hero.name}</a>
         <div>${hero.job}</div>
+        <div>${hero.level}</div>
         <div>${hero.hp}</div>
         <div>${hero.mp}</div>
       </div>

@@ -1,13 +1,25 @@
 main {
   font-family: "Lato"
 }
-img {
-  // width: 100%;
+
+.form-create-hero {
+  margin-bottom: 3rem;
+  h2 {
+    font-size: 1rem;
+    margin-top: 0;
+  }
+  .field {
+    display: flex;
+    margin-bottom: 0.5rem;
+  }
+  label {
+    width: 70px;
+  }
 }
 
 .main-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 400px 1fr;
   width: 1080px;
   margin: 0 auto;
 }
@@ -19,7 +31,8 @@ img {
 
 .hero, .hero-header {
   display: grid;
-  grid-template-columns: repeat(4, 100px)
+  // grid-template-columns: repeat(5, 100px)
+  grid-template-columns: 150px 150px 75px 90px 90px;
 }
 
 .hero {
@@ -81,16 +94,6 @@ img {
     }
   } // .hero-profile 
   &:hover {
-    background-color: yellow;
+    background-color: #f6f6f6;
   }
 } // .hero
-
-.form-wrapper {
-  .field {
-    display: flex;
-    margin-bottom: 0.5rem;
-  }
-  label {
-    width: 70px;
-  }
-}

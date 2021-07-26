@@ -11,14 +11,7 @@
 <body>
   <main>
     <div class="main-content">
-      <div class="list-heroes-wrapper">
-        <div id="list-heroes">
-        </div> <!--.list-heroes -->
-      </div>
-
-      <div id="hero-profile-wrapper"></div>
-
-      <div class="form-wrapper">
+      <div class="form-wrapper form-create-hero">
         <div id="form-hero">
           <h2>Create your hero</h2>
           <div class="field">
@@ -30,15 +23,22 @@
             <div id="job-wrapper"></div>
           </div>
           <div class="field">
-            <label for="hp">Hero Image</label>
+            <label for="hp">Photo</label>
             <input type="file" id="image" name="hero[image]" />
           </div>
 
           <div class="field">
             <input id="btn-submit-hero" type="submit" />
           </div>
-        </div> <!--.form-wrapper -->
+        </div> <!--.form-hero -->
+      </div> <!--.form-wrapper -->
+
+      <div class="list-heroes-wrapper">
+        <div id="list-heroes">
+        </div> <!--.list-heroes -->
       </div>
+
+      <div id="hero-profile-wrapper"></div>
     </div> <!--.main-content -->
   </main>  
 
