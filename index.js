@@ -1,5 +1,7 @@
 require('dotenv').config()
 import './src/main.scss'
+import iconWranch from "/assets/icons/wranch.png"
+import iconBin from "/assets/icons/bin.png"
 
 document.addEventListener('DOMContentLoaded', function() {
   let listHeroesDom = document.getElementById('list-heroes')
@@ -58,7 +60,6 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch(createHeroUrl, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': process.env.API_CREDENTIAL
       },
       body: formData
@@ -95,6 +96,10 @@ function displayHeroProfile(hero) {
       </div>
       <div class="hero-profile-power">
         <div class="item">
+          <div class="item-label">Lv</div>
+          <div class="item-value">${heroData.level}</div>
+        </div>
+        <div class="item">
           <div class="item-label">HP</div>
           <div class="item-value">${heroData.hp}</div>
         </div>
@@ -104,8 +109,12 @@ function displayHeroProfile(hero) {
         </div>
       </div>
       <div class="hero-profile-buttons">
-        <button class="btn-hero-update">Update</button>
-        <button class="btn-hero-delete" onclick="deleteHeroItem(${heroData.id})">Delete</button>
+        <a type="button" class="btn-hero-delete" onclick="deleteHeroItem(${heroData.id})">
+          <img src="${iconBin}" width="22px" height="22px"  alt="Delete hero" />
+        </a>
+        <a type="button" class="btn-hero-update">
+          <img src="${iconWranch}" width="22px" height="22px" alt="Edit hero" />
+        </a>
       </div>
     </div>
   `
@@ -162,6 +171,7 @@ function buildHeroList(targetDom, data) {
     let heroData = {
       id: hero.id,
       name: hero.name,
+      level: hero.level,
       hp: hero.hp,
       mp: hero.mp,
       job: hero.job,
