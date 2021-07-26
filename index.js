@@ -151,6 +151,7 @@ function addHeaderTitleToHeroesList(targetDom) {
       <div>Name</div>
       <div>Job</div>
       <div>HP</div>
+      <div>MP</div>
     </di>
   `)
 
