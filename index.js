@@ -3,12 +3,17 @@ import './src/main.scss'
 import iconWranch from "/assets/icons/wranch.png"
 import iconBin from "/assets/icons/bin.png"
 
+function heroUrl() {
+  return process.env.API_URL + "/heroes"
+}
+
 document.addEventListener('DOMContentLoaded', function() {
   let listHeroesDom = document.getElementById('list-heroes')
   let formHero = document.querySelector("#form-hero")
   let btnSubmitHero = document.querySelector("#btn-submit-hero")
 
   if(listHeroesDom == null) { return }
+  // TODO: Replace this heroUrl with the heroUrl() function 
   let heroUrl = process.env.API_URL + "/heroes"
 
   formHero.setAttribute("action", heroUrl);
@@ -76,7 +81,41 @@ function assignClickEventForHeroItem() {
   heroItems.forEach(hero => {
     hero.addEventListener('click', function(){
       displayHeroProfile(hero) 
+      assignClickEventForHeroName(hero)
     })
+  })
+}
+
+function assignClickEventForHeroName(heroTag) {
+  let heroNameTag = document.querySelector('.hero-profile-name')
+  heroNameTag.addEventListener('click', function() {
+    let nameTag = event.currentTarget
+    let inputName = document.createElement('input')
+    inputName.setAttribute('type', 'text')
+    inputName.setAttribute('name', 'hero[name]')
+    inputName.setAttribute('value', nameTag.textContent)
+
+    nameTag.textContent = ''
+    nameTag.appendChild(inputName)
+    inputName.focus()
+
+    inputName.onblur = function () {
+      let heroUpdateUrl = heroUrl() + "/" + heroTag.dataset.id
+      fetch(heroUpdateUrl, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': process.env.API_CREDENTIAL
+        },
+        body: JSON.stringify({ hero: { name: inputName.value } })
+      })
+      .then(resp => resp.json())
+      .then(data => {
+          let newName = data.name
+          inputName.remove()
+          nameTag.textContent = newName
+      })
+    }
   })
 }
 
@@ -138,6 +177,7 @@ function insertNewHero(heroList, hero) {
     <div class="hero">
       <a href="" class="hero-name">${hero.name}</a>
       <div>${hero.job}</div>
+      <div>${hero.level}</div>
       <div>${hero.hp}</div>
       <div>${hero.mp}</div>
     </div>
