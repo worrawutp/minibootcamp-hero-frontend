@@ -3,10 +3,6 @@ import './src/main.scss'
 import iconWranch from "/assets/icons/wranch.png"
 import iconBin from "/assets/icons/bin.png"
 
-function heroUrl() {
-  return process.env.API_URL + "/heroes"
-}
-
 document.addEventListener('DOMContentLoaded', function() {
   let listHeroesDom = document.getElementById('list-heroes')
   let formHero = document.querySelector("#form-hero")
@@ -14,11 +10,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   if(listHeroesDom == null) { return }
   // TODO: Replace this heroUrl with the heroUrl() function 
-  let heroUrl = process.env.API_URL + "/heroes"
+  // let heroUrl = process.env.API_URL + "/heroes"
 
-  formHero.setAttribute("action", heroUrl);
+  formHero.setAttribute("action", heroUrl());
 
-  fetch(heroUrl, {
+  fetch(heroUrl(), {
     method: "GET",
     headers: {
       'Content-Type': 'application/json',
@@ -61,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     formData.append('hero[job]', job)
     formData.append('hero[image]', image)
 
-    let createHeroUrl = heroUrl
+    let createHeroUrl = heroUrl()
     fetch(createHeroUrl, {
       method: 'POST',
       headers: {
@@ -75,6 +71,10 @@ document.addEventListener('DOMContentLoaded', function() {
     })
   }
 })
+
+function heroUrl() {
+  return process.env.API_URL + "/heroes"
+}
 
 function assignClickEventForHeroItem() {
   let heroItems = document.querySelectorAll('.hero')
