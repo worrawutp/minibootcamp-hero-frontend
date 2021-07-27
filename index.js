@@ -5,12 +5,28 @@ import iconBin from "/assets/icons/bin.png"
 
 document.addEventListener('DOMContentLoaded', function() {
   let listHeroTag = getListOfHeroTag()
-  let formHeroTag = getFormHeroTag()
-  let btnSubmitHero = document.querySelector("#btn-submit-hero")
-
   if(listHeroTag == null) { return }
-  formHeroTag.setAttribute("action", heroUrl());
 
+  displayListOfHero()
+  displayAvailableJobs()
+
+  let btnSubmitHero = document.querySelector("#btn-submit-hero")
+  btnSubmitHero.onclick = () => createHero()
+})
+
+function heroUrl() {
+  return process.env.API_URL + "/heroes"
+}
+
+function getFormHeroTag() {
+  return document.querySelector("#form-hero")
+}
+
+function getListOfHeroTag() {
+  return document.getElementById('list-heroes')
+}
+
+function displayListOfHero() {
   fetch(heroUrl(), {
     method: "GET",
     headers: {
@@ -23,8 +39,9 @@ document.addEventListener('DOMContentLoaded', function() {
       setupHeaderTitleToHeroesList()
       assignClickEventForHeroItem()
   })
+}
 
-  // Get all available jobs from backend
+function displayAvailableJobs() {
   let heroJobUrl = process.env.API_URL + "/hero_jobs"
   fetch(heroJobUrl, {
     method: "GET",
@@ -39,22 +56,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
       buildJobDropdown(jobWrapper, data)
     })
-
-  btnSubmitHero.onclick = () => {
-    createHero()
-  }
-})
-
-function heroUrl() {
-  return process.env.API_URL + "/heroes"
-}
-
-function getFormHeroTag() {
-  return document.querySelector("#form-hero")
-}
-
-function getListOfHeroTag() {
-  return document.getElementById('list-heroes')
 }
 
 function createHero() {
