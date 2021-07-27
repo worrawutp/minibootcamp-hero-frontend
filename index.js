@@ -103,8 +103,10 @@ function assignClickEventForHeroName(heroId) {
     nameInput.setAttribute('value', nameTag.textContent)
     nameInput.dataset.id = heroId
 
-    nameTag.textContent = ''
-    nameTag.appendChild(nameInput)
+    if(nameTag.children.length == 0) {
+      nameTag.textContent = ''
+      nameTag.appendChild(nameInput)
+    }
 
     nameInput.focus()
     nameInput.addEventListener('blur', function(){
