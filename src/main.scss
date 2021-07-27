@@ -4,7 +4,10 @@ main {
 
 .form-create-hero {
   margin-bottom: 3rem;
-  label { width: 70px; }
+  label {
+    font-size: 0.875em;
+    width: 70px;
+  }
   h2 {
     font-size: 1rem;
     margin-top: 0;
@@ -16,9 +19,23 @@ main {
   #btn-submit-hero {
     margin-left: 70px;
     border: none;
-    padding: 0.25rem 1rem;
-    background-color: limegreen;
+    padding: 0.33rem 0.5rem;
+    background-color: #95c33e;
     color: white;
+    width: 118px;
+    border-radius: 13px;
+    margin-top: 1rem;
+  }
+  input[name="hero[name]"] {
+    padding: 0.33rem 0.75rem;
+    border: none;
+    border-bottom: 1px solid gainsboro;
+    background: #ffffe4;
+  }
+  select[name="hero[job]"] {
+    padding: 0.333rem 0.75rem;
+    border-radius: 6px;
+    border-color: #f3f377;
   }
 }
 
@@ -35,8 +52,13 @@ main {
 
 .hero, .hero-header {
   display: grid;
-  // grid-template-columns: repeat(5, 100px)
   grid-template-columns: 150px 150px 75px 90px 90px;
+}
+
+.hero-header {
+  border-bottom: 1px solid gainsboro;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .hero {
