@@ -180,9 +180,18 @@ window.deleteHeroItem = function(heroId) {
     let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
 
     if(heroItem != null) {
-      heroItem.remove()
-      heroProfileWrapper.innerHTML = ''
-      // request server with method=DELETE
+      let heroDeleteUrl = heroUrl() + "/" + heroId
+      fetch(heroDeleteUrl, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        'Authorization': process.env.API_CREDENTIAL
+        }
+      }).then(resp => resp.json())
+        .then(_ => {
+          heroItem.remove()
+          heroProfileWrapper.innerHTML = ''
+      })
     }
   }
 }
