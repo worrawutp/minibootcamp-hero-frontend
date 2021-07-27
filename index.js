@@ -98,9 +98,7 @@ function assignClickEventForHeroItem() {
 
 function assignEventForPhotoUpdate(heroId) {
   let inputPhotoTag = document.getElementById('edit-hero-photo')
-  console.log(inputPhotoTag)
   inputPhotoTag.addEventListener('change', function(){
-    console.log('ready!')
     let newPhoto = event.currentTarget.files[0]
     let formData = new FormData
     formData.append('hero[image]', newPhoto)
