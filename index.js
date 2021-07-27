@@ -81,46 +81,52 @@ function assignClickEventForHeroItem() {
   heroItems.forEach(hero => {
     hero.addEventListener('click', function(){
       displayHeroProfile(hero) 
-      assignClickEventForHeroName(hero)
+      assignClickEventForHeroName(hero.dataset.id)
     })
   })
 }
 
-function assignClickEventForHeroName(heroTag) {
+function assignClickEventForHeroName(heroId) {
   let heroNameTag = document.querySelector('.hero-profile-name')
   heroNameTag.addEventListener('click', function() {
     let nameTag = event.currentTarget
-    let inputName = document.createElement('input')
-    inputName.setAttribute('type', 'text')
-    inputName.setAttribute('name', 'hero[name]')
-    inputName.setAttribute('value', nameTag.textContent)
+    let nameInput = document.createElement('input')
+    nameInput.setAttribute('type', 'text')
+    nameInput.setAttribute('name', 'hero[name]')
+    nameInput.setAttribute('value', nameTag.textContent)
+    nameInput.dataset.id = heroId
 
     nameTag.textContent = ''
-    nameTag.appendChild(inputName)
-    inputName.focus()
+    nameTag.appendChild(nameInput)
 
-    inputName.onblur = function () {
-      let heroUpdateUrl = heroUrl() + "/" + heroTag.dataset.id
-      fetch(heroUpdateUrl, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': process.env.API_CREDENTIAL
-        },
-        body: JSON.stringify({ hero: { name: inputName.value } })
-      })
-      .then(resp => resp.json())
-      .then(data => {
-          let newName = data.name
-          inputName.remove()
-          nameTag.textContent = newName
-      })
-    }
+    nameInput.focus()
+    nameInput.addEventListener('blur', function(){
+      updateHeroName(nameTag)
+    })
+  })
+}
+
+function updateHeroName(nameTag) {
+  let inputNameTag = event.currentTarget
+  let heroId = event.currentTarget.dataset.id
+  let heroUpdateUrl = heroUrl() + "/" + heroId
+
+  fetch(heroUpdateUrl, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': process.env.API_CREDENTIAL
+    },
+    body: JSON.stringify({ hero: { name: inputNameTag.value } })
+  })
+  .then(resp => resp.json())
+  .then(data => {
+      inputNameTag.remove()
+      nameTag.textContent = data.name
   })
 }
 
 function displayHeroProfile(hero) {
-  // show hero Profile
   let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
   let heroData = JSON.parse(hero.dataset.hero)
 
