@@ -46,34 +46,43 @@ document.addEventListener('DOMContentLoaded', function() {
   btnSubmitHero.onclick = () => {
     createHero()
   }
-
-  function createHero() {
-    let name = formHero.querySelector('#name').value
-    let job = formHero.querySelector('#jobs').value
-    let image = formHero.querySelector('#image').files[0]
-
-    let formData = new FormData
-    formData.append('hero[name]', name)
-    formData.append('hero[job]', job)
-    formData.append('hero[image]', image)
-
-    let createHeroUrl = heroUrl()
-    fetch(createHeroUrl, {
-      method: 'POST',
-      headers: {
-        'Authorization': process.env.API_CREDENTIAL
-      },
-      body: formData
-    })
-    .then(resp => resp.json())
-    .then(data => {
-      insertNewHero(listHeroesDom, data)
-    })
-  }
 })
 
 function heroUrl() {
   return process.env.API_URL + "/heroes"
+}
+
+function getFormHeroTag() {
+  return document.querySelector("#form-hero")
+}
+
+function getListOfHeroTag() {
+  return document.getElementById('list-heroes')
+}
+
+function createHero() {
+  let formHero = getFormHeroTag()
+  let name = formHero.querySelector('#name').value
+  let job = formHero.querySelector('#jobs').value
+  let image = formHero.querySelector('#image').files[0]
+
+  let formData = new FormData
+  formData.append('hero[name]', name)
+  formData.append('hero[job]', job)
+  formData.append('hero[image]', image)
+
+  let createHeroUrl = heroUrl()
+  fetch(createHeroUrl, {
+    method: 'POST',
+    headers: {
+      'Authorization': process.env.API_CREDENTIAL
+    },
+    body: formData
+  })
+  .then(resp => resp.json())
+  .then(data => {
+    insertNewHero(data)
+  })
 }
 
 function assignClickEventForHeroItem() {
@@ -178,7 +187,8 @@ window.deleteHeroItem = function(heroId) {
   }
 }
 
-function insertNewHero(heroList, hero) {
+function insertNewHero(hero) {
+  let heroList = getListOfHeroTag()
   let htmlStr = `
     <div class="hero">
       <a href="" class="hero-name">${hero.name}</a>
