@@ -2,6 +2,7 @@ require('dotenv').config()
 import './src/main.scss'
 import iconWranch from "/assets/icons/wranch.png"
 import iconBin from "/assets/icons/bin.png"
+import defaultPhoto from "/assets/default_photo.jpg"
 
 document.addEventListener('DOMContentLoaded', function() {
   let listHeroTag = getListOfHeroTag()
@@ -142,11 +143,12 @@ function updateHeroName(nameTag) {
 function displayHeroProfile(hero) {
   let heroProfileWrapper = document.getElementById('hero-profile-wrapper')
   let heroData = JSON.parse(hero.dataset.hero)
+  let heroPhoto = heroData.image_medium_url || defaultPhoto
 
   heroProfileWrapper.innerHTML = `
     <div class="hero-profile">
       <div class="hero-profile-image">
-        <img src="${heroData.image_medium_url}" alt="${heroData.name}" />
+        <img src="${heroPhoto}" alt="${heroData.name}" onerror="this.src='${defaultPhoto}'" />
       </div>
       <div class="hero-profile-title">
         <div class="hero-profile-name">${heroData.name}</div>
