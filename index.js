@@ -130,8 +130,12 @@ function updateHeroName(nameTag) {
   })
   .then(resp => resp.json())
   .then(data => {
-      inputNameTag.remove()
-      nameTag.textContent = data.name
+    inputNameTag.remove()
+    nameTag.textContent = data.name
+    
+    let heroItem = document.querySelector(`.hero[data-id="${data.id}"]`)
+    if(heroItem == null) { return }
+    heroItem.firstElementChild.textContent = data.name
   })
 }
 
@@ -200,7 +204,7 @@ function insertNewHero(hero) {
   let heroList = getListOfHeroTag()
   let htmlStr = `
     <div class="hero">
-      <a href="" class="hero-name">${hero.name}</a>
+      <div class="hero-item-name">${hero.name}</div>
       <div>${hero.job}</div>
       <div>${hero.level}</div>
       <div>${hero.hp}</div>
@@ -244,8 +248,8 @@ function buildHeroList(data) {
       image_medium_url: hero.image_medium_url.replace('http://localhost:3002', process.env.API_URL)
     }
     let htmlStr = `
-      <div class="hero" data-id='${hero.id}' data-hero='${JSON.stringify(heroData)}'
-        <a href="" class="hero-name">${hero.name}</a>
+      <div class="hero" data-id='${hero.id}' data-hero='${JSON.stringify(heroData)}'>
+        <div class="hero-item-name">${hero.name}</div>
         <div>${hero.job}</div>
         <div>${hero.level}</div>
         <div>${hero.hp}</div>
