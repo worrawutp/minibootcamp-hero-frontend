@@ -4,15 +4,12 @@ import iconWranch from "/assets/icons/wranch.png"
 import iconBin from "/assets/icons/bin.png"
 
 document.addEventListener('DOMContentLoaded', function() {
-  let listHeroesDom = document.getElementById('list-heroes')
-  let formHero = document.querySelector("#form-hero")
+  let listHeroTag = getListOfHeroTag()
+  let formHeroTag = getFormHeroTag()
   let btnSubmitHero = document.querySelector("#btn-submit-hero")
 
-  if(listHeroesDom == null) { return }
-  // TODO: Replace this heroUrl with the heroUrl() function 
-  // let heroUrl = process.env.API_URL + "/heroes"
-
-  formHero.setAttribute("action", heroUrl());
+  if(listHeroTag == null) { return }
+  formHeroTag.setAttribute("action", heroUrl());
 
   fetch(heroUrl(), {
     method: "GET",
@@ -22,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }).then(resp => resp.json())
     .then(data => {
-      buildHeroList(listHeroesDom, data)
-      addHeaderTitleToHeroesList(listHeroesDom)
+      buildHeroList(data)
+      setupHeaderTitleToHeroesList()
       assignClickEventForHeroItem()
   })
 
@@ -210,8 +207,8 @@ function buildJobDropdown(targetDom, data) {
   `) 
 }
 
-function addHeaderTitleToHeroesList(targetDom) {
-  targetDom.insertAdjacentHTML('beforebegin', `
+function setupHeaderTitleToHeroesList() {
+  getListOfHeroTag().insertAdjacentHTML('beforebegin', `
     <div class="hero-header">
       <div>Name</div>
       <div>Job</div>
@@ -220,10 +217,10 @@ function addHeaderTitleToHeroesList(targetDom) {
       <div>MP</div>
     </di>
   `)
-
 }
 
-function buildHeroList(targetDom, data) {
+function buildHeroList(data) {
+  let listHeroTag = getListOfHeroTag()
   data.forEach(hero => {
     let heroData = {
       id: hero.id,
@@ -243,7 +240,7 @@ function buildHeroList(targetDom, data) {
         <div>${hero.mp}</div>
       </div>
     `
-    targetDom.insertAdjacentHTML('beforeend', htmlStr) 
+    listHeroTag.insertAdjacentHTML('beforeend', htmlStr) 
   })
 }
 
