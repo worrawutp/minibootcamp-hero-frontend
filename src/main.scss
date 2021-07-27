@@ -69,8 +69,9 @@ main {
     }
 
     &-image {
+      position: relative;
       width: 100%;
-      img {
+      .hero-photo {
         display: block;
         width: 180px;
         height: 180px;
@@ -80,6 +81,18 @@ main {
         object-fit: cover;
         font-size: 14px;
         color: lightgray;
+      }
+      .photo-update {
+        z-index: 2;
+        position: absolute;
+        bottom: 35px;
+        right: 55px;
+        cursor: pointer;
+      }
+      #edit-hero-photo {
+        width: 0;
+        height: 0;
+        visibility: hidden;
       }
     }
     &-title {

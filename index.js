@@ -2,6 +2,7 @@ require('dotenv').config()
 import './src/main.scss'
 import iconWranch from "/assets/icons/wranch.png"
 import iconBin from "/assets/icons/bin.png"
+import photoUpdateIcon from "/assets/icons/photo_update_icon.png"
 import defaultPhoto from "/assets/default_photo.jpg"
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -90,6 +91,35 @@ function assignClickEventForHeroItem() {
     hero.addEventListener('click', function(){
       displayHeroProfile(hero) 
       assignClickEventForHeroName(hero.dataset.id)
+      assignEventForPhotoUpdate(hero.dataset.id)
+    })
+  })
+}
+
+function assignEventForPhotoUpdate(heroId) {
+  let inputPhotoTag = document.getElementById('edit-hero-photo')
+  console.log(inputPhotoTag)
+  inputPhotoTag.addEventListener('change', function(){
+    console.log('ready!')
+    let newPhoto = event.currentTarget.files[0]
+    let formData = new FormData
+    formData.append('hero[image]', newPhoto)
+
+    let heroUpdateUrl = heroUrl() + "/" + heroId
+    fetch(heroUpdateUrl, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': process.env.API_CREDENTIAL
+      },
+      body: formData
+    })
+    .then(resp => resp.json())
+    .then(data => {
+      let heroPhotoTag = document.querySelector("img.hero-photo")
+      let heroItem = getHeroItem(heroId)
+
+      heroPhotoTag.src = data.image_medium_url.replace("http://localhost:3002", process.env.API_URL)
+      heroItem.dataset.hero = JSON.stringify(data)
     })
   })
 }
@@ -134,10 +164,14 @@ function updateHeroName(nameTag) {
     inputNameTag.remove()
     nameTag.textContent = data.name
     
-    let heroItem = document.querySelector(`.hero[data-id="${data.id}"]`)
+    let heroItem = getHeroItem(data.id)
     if(heroItem == null) { return }
     heroItem.firstElementChild.textContent = data.name
   })
+}
+
+function getHeroItem(heroId) {
+  return document.querySelector(`.hero[data-id="${heroId}"]`)
 }
 
 function displayHeroProfile(hero) {
@@ -148,7 +182,13 @@ function displayHeroProfile(hero) {
   heroProfileWrapper.innerHTML = `
     <div class="hero-profile">
       <div class="hero-profile-image">
-        <img src="${heroPhoto}" alt="${heroData.name}" onerror="this.src='${defaultPhoto}'" />
+        <img class="hero-photo" src="${heroPhoto}" alt="${heroData.name}" onerror="this.src='${defaultPhoto}'" />
+        <div className="photo-update-wrapper">
+          <label for="edit-hero-photo">
+            <img class="photo-update" src="${photoUpdateIcon}" width="20px" height="20px" alt="photo update icon" />
+          </label>
+          <input id="edit-hero-photo" type="file" accept="image/*"/>
+        </div>
       </div>
       <div class="hero-profile-title">
         <div class="hero-profile-name">${heroData.name}</div>
